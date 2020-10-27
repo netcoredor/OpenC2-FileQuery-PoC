@@ -30,12 +30,11 @@ module.exports =  function (req,callback){
     };
     var options = { 
         method: 'GET', 
-        url: 'https://www.virustotal.com/api/v3/files/' + getHash(hashValue),
+        url: 'https://' + AuthConfig['fireeye-server'] + '/hashes/' + getHash(hashValue),
         headers: {
             'Content-Type': 'application/json',
-            'x-apikey': AuthConfig['vapikey']
+            'feye-auth-key': AuthConfig['feye-auth-key']
           }
-
     };
         request(options, 
             function (err,body) {

@@ -68,7 +68,7 @@ $(document).ready(function () {
 	};
 
 	function populateFields() {
-		var jsonjadn = $.getJSON("assets/bv_actuator_capabilities.json", function (data) {
+		var jsonjadn = $.getJSON("assets/actuator_capabilities.json", function (data) {
 
 			$.each(jsonjadn.responseJSON.types, function (i, item) {
 				valueTypes[item[0]] = item[1];
@@ -161,7 +161,7 @@ $(document).ready(function () {
 				$.each(codes[w[1]], function (i, item) {
 					$('#' + asteriskChecker + '_Menu').append('<a class="dropdown-item encryptoDropDownMenu" oc2name="target" oc2checkbox="' + asteriskChecker + '" oc2cmdname="' + $('#targetButtonId')[0].innerText + '" role="presentation" href="#" id=' + item[1] + "SelectionId" + ' onclick="updateValues(this)">' + item[1] + '</a>');
 				});
-				$('#' + asteriskChecker + '_TD').after('<td class="hashTypes hashContent"><input class="hashTypes inputString input-disabled' + '" oc2name="target" oc2cmdname=' + $('#targetButtonId')[0].innerText + ' oc2checkbox="' + asteriskChecker + '" onchange="updateInputValues(this)" type="text" minlength="1" tabindex="-1" value=""/><i class="hashTypes fa fa-plus-circle hashContent input-disabled" onclick="createNewHashRow(this)" style="color:rgb(40,167,69);font-size:46;"></i></td>');
+				$('#' + asteriskChecker + '_TD').after('<td class="hashTypes hashContent"><input class="hashTypes inputString input-disabled' + '" oc2name="target" oc2cmdname=' + $('#targetButtonId')[0].innerText + ' oc2checkbox="' + asteriskChecker + '" onchange="updateInputValues(this)" type="text" minlength="1" tabindex="-1" value=""/></td>');
 			} else if (w[1] != 'encryption_algorithm' && w[1] != 'hashes' && w[1] != 'hash' && (w[2] == "Null" || w[2] == "comm-selected")) {
 				$('#targetOptionButtonId').after('<tr><td><div class="form"><input class="dynamicInput" type="checkbox" id="' + asteriskChecker + '" oc2name="target" oc2cmdname=' + $('#targetButtonId')[0].innerText + ' onclick="dynamicInputCheck(this)"/><label for="' + asteriskChecker + 'formCheck" >' + asteriskChecker + '</label></div></td><td id="' + w[1] + '_TD"></td></tr>');
 			} else if (w[1] != 'encryption_algorithm' && w[1] != 'hashes' && w[1] != 'hash' && (w[2] != "comm-selected" || (w[2] != "comm-selected"))) {
@@ -208,7 +208,7 @@ $("#executeNowId").on('click', (function () {
 	xhttp.setRequestHeader('Content-Type', 'application/json');
 	xhttp.setRequestHeader('apikey', oc2ServerAPIKeyId);
 	xhttp.setRequestHeader('Authorization', 'Basic ' + oc2ServerAPIKeyId);
-	xhttp.setRequestHeader('x-request-id', getRandomNumber());
+	xhttp.setRequestHeader('request_id', getRandomNumber());
 	
 	xhttp.onreadystatechange = function () {
 		if (this.readyState !== 4)
@@ -250,7 +250,6 @@ $("#resetSelectionsId").on('click', (function () {
 
 
 	openc2command = {
-		"id": "",
 		"action": "",
 		"target": {},
 		"actuator": {},
@@ -273,27 +272,27 @@ $("#resetSelectionsId").on('click', (function () {
 function sampleCodeGenerate(jsonPrettified) {
 	var oc2Server = $('#oc2ServerId').val();
 	var oc2ServerAPIKeyId = $('#oc2ServerKeyId').val();
-	var curlCode = "curl --insecure -X POST " + oc2Server + " \\<br>\
--H 'Cache-Control: no-cache' \\<br>\
--H 'Content-Type: application/json' \\<br>\
--H 'apikey: " + oc2ServerAPIKeyId + "' \\<br>\
--H 'x-request-id: 1df58b31-0e4b-4cf3-92e5-d4bbac8a828e'\\<br>\
--d '"
-	var curlCodePretty = JSON.stringify(jsonPrettified, null, 2);
+	var curlCode = "curl --insecure --request POST '" + oc2Server + "' \\<br> \
+--header 'Content-Type: application/json' \\<br>\
+--header 'Accept: application/json' \\<BR>\
+--header 'apikey: " + oc2ServerAPIKeyId + "' \\<br>\
+--header 'request_id: " + getRandomNumber() + "' \\<br>\
+--data-raw '"
 	var curlclosing = "'\n";
 	$('#curlCodeText').html("".concat(curlCode, jsonPrettified, curlclosing));
 	var nodeJsCode = "var request = require('request');\n\
 var options = { method: 'POST',\n\
 url: '" + oc2Server + "',\n\
+strictSSL: false,\n\
 headers: \
-{ 'apikey': '" + oc2ServerAPIKeyId + "',\n\
-'x-request-id': '1df58b31-0e4b-4cf3-92e5-d4bbac8a828e',\n\
-'Content-Type': 'application/json' },\n\
+{ 'apikey': '" + oc2ServerAPIKeyId + "',\n \
+'request_id': '" + getRandomNumber() + "',\n \
+'Content-Type': 'application/json' },\n \
 body: \n"
-	var nodeJSclosing = ",\njson: true };\n\
-request(options, function (error, response, body) {\n\
-if (error) throw new Error(error);\n\
-console.log(body);\n\
+	var nodeJSclosing = ",\njson: true };\n \
+request(options, function (error, response, body) {\n \
+if (error) throw new Error(error);\n \
+console.log(JSON.stringify(response.body));\n \
 });"
 	$('#nodejsCodeText').text("".concat(nodeJsCode, jsonPrettified, nodeJSclosing));
 	var pythonCode = 'import requests\ \nurl = "' + oc2Server + '" \npayload = \''
@@ -301,10 +300,9 @@ console.log(body);\n\
 	headers['Content-Type'] = "application/json";
 	headers['apikey'] = oc2ServerAPIKeyId;
 	headers['Cache-Control'] = "no-cache";
-	headers['x-request-id'] = '1df58b31-0e4b-4cf3-92e5-d4bbac8a828e';
+	headers['request_id'] = '1df58b31-0e4b-4cf3-92e5-d4bbac8a828e';
 	var headersString = 'headers = ' + JSON.stringify(headers);
 	var pythonEnd = 'response = requests.request("POST", url, data=payload, headers=headers,verify=False)';
-	var payload = JSON.stringify(openc2command, null, 2);
 	var jsonPrettified = jsonPrettified.replace(/\n/g, "\\\<br>");
 	$('#pythonCodeText').html("".concat(pythonCode, jsonPrettified, '\'\n', headersString, '\n', pythonEnd, '\n', 'print(response.text)'));
 	$('#viewSampleCommandId').removeClass('collapsed');
@@ -315,8 +313,6 @@ console.log(body);\n\
 	$('#collapse-2').addClass('show');
 }
 $("#generateCodeId").on('click', (function () {
-//	openc2command['id'] = getRandomNumber();
-
 	var jsonPrettified = JSON.stringify(openc2command, null, 2);
 	$('#commandSampleContentPre').text(jsonPrettified);
 	sampleCodeGenerate(jsonPrettified);

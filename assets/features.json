@@ -1,0 +1,71 @@
+{
+    "actuators": [
+        {
+            "name": "virustotal",
+            "version": "1.0",
+            "features": {
+                "version": "1.0",
+                "pairs": {
+                    "action": "query",
+                    "file": [
+                        {
+                            "hash": [
+                                "md5",
+                                "sha256"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "fireeye",
+            "version": "1.0",
+            "features": {
+                "pairs": {
+                    "action": "query",
+                    "file": [
+                        {
+                            "hash": [
+                                "md5"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "hashdd",
+            "version": "1.0",
+            "features": {               
+                "pairs": {
+                    "action": "query",
+                    "file": [
+                        {
+                            "hash": [
+                                "md5",
+                                "sha256"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "bluvector",
+            "version": "1.0",
+            "features": {
+                "pairs": {
+                    "action": "query",
+                    "file": [
+                        {
+                            "hash": [
+                                "md5"
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

@@ -22,6 +22,12 @@ app.use(bodyParser.json());
 var AuthConfig = require(__dirname + '/etc/config.json');
 var virustotal = require(__dirname + '/oc2cmds/virustotal.js');
 var bluvector = require(__dirname + '/oc2cmds/bluvector.js');
+var fireeye = require(__dirname + '/oc2cmds/fireeye.js');
+var hashdd = require(__dirname + '/oc2cmds/hashdd.js');
+var threatcrowd = require(__dirname + '/oc2cmds/threatcrowd.js');
+var opswat = require(__dirname + '/oc2cmds/opswat.js');
+var featurepairs = require(__dirname + '/assets/features.json');
+
 app.get('/', function (req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.writeHead(200, { "Content-Type": "text/html" });
@@ -57,6 +63,12 @@ app.get('/assets/css/font-awesome.min.css', function (req, res) {
     fs.createReadStream(__dirname + '/assets/css/font-awesome.min.css').pipe(res);
 });
 
+app.get('/assets/fonts/fontawesome-webfont.woff2', function (req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.writeHead(200, { "Content-Type": "text/html" });
+    fs.createReadStream(__dirname + '/assets/fonts/fontawesome-webfont.woff2').pipe(res);
+});
+
 app.get('/assets/css/bootstrap.min.css', function (req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.writeHead(200, { "Content-Type": "text/css" });
@@ -81,19 +93,50 @@ app.get('/assets/css/tabs-Menu.css', function (req, res) {
     fs.createReadStream(__dirname + '/assets/css/tabs-Menu.css').pipe(res);
 });
 
-app.get('/assets/bv_actuator_capabilities.json', function (req, res) {
+app.get('/assets/actuator_capabilities.json', function (req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.writeHead(200, { "Content-Type": "text/json" });
-    fs.createReadStream(__dirname + '/assets/bv_actuator_capabilities.json').pipe(res);
+    fs.createReadStream(__dirname + '/assets/actuator_capabilities.json').pipe(res);
 });
 
 app.post('/command/', function (req, res) {
+    if (req.headers["apikey"] != AuthConfig["apikey"]) {
+        var output = '{ "status": "401"}';
+        res.send(JSON.parse(output), null, 4);
+    }
     if (req.headers["apikey"] == AuthConfig["apikey"]) {
-        if (req.body.action.toLowerCase() == 'query' && req.body.target.hasOwnProperty('file') && (req.body.target.file.hasOwnProperty('hashes'))) {
-            if (req.body.actuator['x-virustotal']) {
+        if (req.body.target.hasOwnProperty('features')) {
+        if (req.body.target.hasOwnProperty('features') && (req.body.target['features'] == 0)) {
+                var request_id = req.headers.request_id;
+                var output = '{ "status": "200"}';
+                res.send(JSON.parse(output), null, 4);
+        }
+        else if(req.body.target.hasOwnProperty('features') != 0 && req.body.target['features'].includes('pairs')) {
+                    var request_id = req.headers.request_id;
+                    var output = '{ "status": "200", "request_id": "' + request_id + '", "results" : { "pairs": { "query": ["features","file"]}}}';
+                    res.send(JSON.parse(output), null, 4);
+            }
+        else if (req.body.target['features'] != 0 && req.body.target['features'].includes('versions')) {
+                var request_id = req.headers.request_id;
+                var actuatorversions = [];  
+                featurepairs.actuators.forEach(getVersions);
+                function getVersions(item) {
+                actuatorversions.push({"name": item['name'], "version": item['features']['version']});
+              } 
+                var output = '{ "status": "200", "request_id": "' + request_id + '", "results" : {"versions": ["1.0"]}}';
+                res.send(JSON.parse(output), null, 4);  
+        }
+    
+    
+        }
+    
+        else if (req.body.action.toLowerCase() == 'query' && req.body.target.hasOwnProperty('file') && (req.body.target.file.hasOwnProperty('hashes'))) {
+            if (req.body.actuator.hasOwnProperty('x-virustotal')) {
                 virustotal(req, function (parsedbody) {
                     if (parsedbody) {
-                        res.send('{  "status": "200", "results" : ' + parsedbody + '}', null, 4);
+                        var request_id = req.headers.request_id;
+                        var output = '{ "status": "200", "request_id": "' + request_id + '", "results" : ' + parsedbody + '}';
+                        res.send(JSON.parse(output), null, 4);
                     }
                     else {
                         var output = '{ "status": "400", "results" : "failed" }';
@@ -102,12 +145,66 @@ app.post('/command/', function (req, res) {
 
                 });
             }
-            else if (req.body.actuator['x-bluvector']) {
+            else if (req.body.actuator.hasOwnProperty('x-bluvector')) {
                 bluvector(req, function (parsedbody) {
                     if (parsedbody) {
-                        res.send(parsedbody, null, 4);
+                        var request_id = req.headers.request_id;
+                        var output = '{ "status": "200", "request_id": "' + request_id + '", "results" : ' + parsedbody + '}';
+                        res.send(JSON.parse(output), null, 4);
                     }
                     else {
+                        res.send(JSON.parse(output), null, 4);
+                    }
+                })
+            }
+            else if (req.body.actuator.hasOwnProperty('x-fireeye')) {
+                fireeye(req, function (parsedbody) {
+                    if (parsedbody) {
+                        var request_id = req.headers.request_id;
+                        var output = '{ "status": "200", "request_id": "' + request_id + '", "results" : ' + parsedbody + '}';
+                        res.send(JSON.parse(output), null, 4);
+                     }
+                    else {
+                        var output = '{ "status": "400", "results" : "Error in request." }';
+                        res.send(JSON.parse(output), null, 4);
+                    }
+                })
+            }
+            else if (req.body.actuator.hasOwnProperty('x-hashdd')) {
+                hashdd(req, function (parsedbody) {
+                    if (parsedbody) {
+                        var request_id = req.headers.request_id;
+                        var output = '{ "status": "200", "request_id": "' + request_id + '", "results" : ' + parsedbody + '}';
+                        res.send(JSON.parse(output), null, 4);
+                     }
+                    else {
+                        var output = '{ "status": "400", "results" : "Error in request." }';
+                        res.send(JSON.parse(output), null, 4);
+                    }
+                })
+            }
+            else if (req.body.actuator.hasOwnProperty('x-threatcrowd')) {
+                threatcrowd(req, function (parsedbody) {
+                    if (parsedbody) {
+                        var request_id = req.headers.request_id;
+                        var output = '{ "status": "200", "request_id": "' + request_id + '", "results" : ' + parsedbody + '}';
+                        res.send(JSON.parse(output), null, 4);
+                     }
+                    else {
+                        var output = '{ "status": "400", "results" : "Error in request." }';
+                        res.send(JSON.parse(output), null, 4);
+                    }
+                })
+            }            
+            else if (req.body.actuator.hasOwnProperty('x-opswat')) {
+                opswat(req, function (parsedbody) {
+                    if (parsedbody) {
+                        var request_id = req.headers.request_id;
+                        var output = '{ "status": "200", "request_id": "' + request_id + '", "results" : ' + parsedbody + '}';
+                        res.send(JSON.parse(output), null, 4);
+                     }
+                    else {
+                        var output = '{ "status": "400", "results" : "Error in request." }';
                         res.send(JSON.parse(output), null, 4);
                     }
                 })
@@ -117,7 +214,10 @@ app.post('/command/', function (req, res) {
                 res.send(JSON.parse(output), null, 4);
             };
         }
-
+        else {
+        var output = '{ "status": "400" }';
+        res.send(JSON.parse(output), null, 4);
+        }
     }
 });
 
@@ -127,5 +227,5 @@ var ssloptions = {
 };
 
 https.createServer(ssloptions, app).listen(1512, function () {
-    console.log('Tesla Powerwall OpenC2 Proxy Middleware Listening on https://localhost:1512');
+    console.log('File Hash Query OpenC2 Proxy Middleware Listening on https://localhost:1512');
 });

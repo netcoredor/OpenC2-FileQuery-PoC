@@ -29,11 +29,13 @@ module.exports =  function (req,callback){
         }
     };
     var options = { 
-        method: 'GET', 
-        url: 'https://www.virustotal.com/api/v3/files/' + getHash(hashValue),
+        method: 'POST', 
+        url: 'https://api.hashdd.com/',
         headers: {
             'Content-Type': 'application/json',
-            'x-apikey': AuthConfig['vapikey']
+          },
+          formData: {
+            'hash': getHash(hashValue)
           }
 
     };

@@ -30,10 +30,10 @@ module.exports =  function (req,callback){
     };
     var options = { 
         method: 'GET', 
-        url: 'https://www.virustotal.com/api/v3/files/' + getHash(hashValue),
+        url: 'https://api.metadefender.com/v4/hash/' + getHash(hashValue),
         headers: {
             'Content-Type': 'application/json',
-            'x-apikey': AuthConfig['vapikey']
+            'apikey': AuthConfig['opskey']
           }
 
     };

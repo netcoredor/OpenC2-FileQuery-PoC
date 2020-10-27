@@ -23,7 +23,7 @@ module.exports =  function (req,callback){
         "url": 'https://167.102.248.22:6443/command',
         "headers": {
             "content-type": 'application/openc2-cmd+json',
-            "X-Request-ID": req.headers['x-request-id'],
+            "request_id": req.headers['request_id'],
             "Authorization": 'Token ' + AuthConfig['bluvectorapikey'],
         } };
         process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
