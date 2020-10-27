@@ -32,12 +32,12 @@ Updated "Sample code to download" section.
                     Reputation Lookups
                     -------------------
                 AcctReq		File	MD5		SHA256		InTool
-Virustotal		Y			✓		✓			✓			✓✓
-Fireeye			Y			✓		✓			N/A			✓✓
-BluVector		Y			x*		U			U			x
-ThreatCrowd		N			✓		✓			N/A			✓✓
-HashDD			N			✓		✓			✓			✓✓
-Opswat			Y			✓		✓			✓			✓✓
+Virustotal      Y			     ✓		  ✓			 ✓			   ✓✓
+Fireeye			      Y			     ✓		  ✓			 N/A			 ✓✓
+BluVector		     Y			     x*		 U			 U			    x
+ThreatCrowd		   N			     ✓		  ✓			 N/A			 ✓✓
+HashDD			       N			     ✓		  ✓			 ✓			  ✓✓
+Opswat			       Y			     ✓		  ✓			 ✓			  ✓✓
 
 ## Legend:
 --------
