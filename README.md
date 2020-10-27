@@ -27,19 +27,35 @@ Updated features/versions request.
 Updated "Sample code to download" section.
 
  
-## Preliminary non-OpenC2 Testing
+Preliminary non-OpenC2 Testing
 
-                    Reputation Lookups
-                    -------------------
-                AcctReq		File	MD5		SHA256		InTool
-Virustotal      Y			     ✓		  ✓			 ✓			   ✓✓
+Reputation Lookups
+-------------------
+Source,    AcctReq,File,MD5,SHA256,InTool
+
+Virustotal:Y,✓,✓,✓,✓✓
+
+Source,    AcctReq,File,MD5,SHA256,InTool
+
 Fireeye			      Y			     ✓		  ✓			 N/A			 ✓✓
+
+Source,    AcctReq,File,MD5,SHA256,InTool
+
 BluVector		     Y			     x*		 U			 U			    x
+
+Source,    AcctReq,File,MD5,SHA256,InTool
+
 ThreatCrowd		   N			     ✓		  ✓			 N/A			 ✓✓
+
+Source,    AcctReq,File,MD5,SHA256,InTool
+
 HashDD			       N			     ✓		  ✓			 ✓			  ✓✓
+
+Source,    AcctReq,File,MD5,SHA256,InTool
+
 Opswat			       Y			     ✓		  ✓			 ✓			  ✓✓
 
-## Legend:
+Legend:
 --------
 ✓✓ = Included
 ✓ = Supported and tested
