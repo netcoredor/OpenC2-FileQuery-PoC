@@ -29,8 +29,8 @@ Updated "Sample code to download" section.
  
 Preliminary non-OpenC2 Testing
 
-Reputation Lookups
--------------------
+Actuator API Tests
+
 Source,      AcctReq, File, MD5,  SHA256,    InTool
 
 Virustotal:  Y,       ✓,    ✓,   ✓,         ✓✓
