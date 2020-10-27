@@ -31,29 +31,29 @@ Preliminary non-OpenC2 Testing
 
 Reputation Lookups
 -------------------
-Source,    AcctReq,File,MD5,SHA256,InTool
+Source,      AcctReq, File, MD5,  SHA256,    InTool
 
-Virustotal:Y,✓,✓,✓,✓✓
+Virustotal:  Y,       ✓,    ✓,   ✓,         ✓✓
 
-Source,    AcctReq,File,MD5,SHA256,InTool
+Source,      AcctReq, File, MD5,  SHA256,   InTool
 
-Fireeye			      Y			     ✓		  ✓			 N/A			 ✓✓
+Fireeye      Y,       ✓,    ✓,   N/A,       ✓✓
 
-Source,    AcctReq,File,MD5,SHA256,InTool
+Source,      AcctReq, File, MD5, SHA256,    InTool
 
-BluVector		     Y			     x*		 U			 U			    x
+BluVector    Y,       x*,   U,   U,         x
 
-Source,    AcctReq,File,MD5,SHA256,InTool
+Source,      AcctReq, File, MD5,  SHA256,   InTool
 
-ThreatCrowd		   N			     ✓		  ✓			 N/A			 ✓✓
+ThreatCrowd	 N,       ✓,    ✓,    N/A,     ✓✓
 
-Source,    AcctReq,File,MD5,SHA256,InTool
+Source,      AcctReq, File, MD5,  SHA256,   InTool
 
-HashDD			       N			     ✓		  ✓			 ✓			  ✓✓
+HashDD			    N,       ✓,    ✓,   ✓,        ✓✓
 
-Source,    AcctReq,File,MD5,SHA256,InTool
+Source,      AcctReq, File, MD5,  SHA256,   InTool
 
-Opswat			       Y			     ✓		  ✓			 ✓			  ✓✓
+Opswat			    Y,       ✓,    ✓,    ✓,        ✓✓
 
 Legend:
 --------
