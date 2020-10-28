@@ -99,7 +99,7 @@ app.get('/assets/actuator_capabilities.json', function (req, res) {
     fs.createReadStream(__dirname + '/assets/actuator_capabilities.json').pipe(res);
 });
 
-app.post('/command/', function (req, res) {
+app.post('/openc2/', function (req, res) {
     if (req.headers["apikey"] != AuthConfig["apikey"]) {
         var output = '{ "status": "401"}';
         res.send(JSON.parse(output), null, 4);
@@ -107,23 +107,23 @@ app.post('/command/', function (req, res) {
     if (req.headers["apikey"] == AuthConfig["apikey"]) {
         if (req.body.target.hasOwnProperty('features')) {
         if (req.body.target.hasOwnProperty('features') && (req.body.target['features'] == 0)) {
-                var request_id = req.headers.request_id;
+                var request_id = req.headers['X-Request-ID'];
                 var output = '{ "status": "200"}';
                 res.send(JSON.parse(output), null, 4);
         }
         else if(req.body.target.hasOwnProperty('features') != 0 && req.body.target['features'].includes('pairs')) {
-                    var request_id = req.headers.request_id;
+                    var request_id = req.headers['X-Request-ID'];
                     var output = '{ "status": "200", "request_id": "' + request_id + '", "results" : { "pairs": { "query": ["features","file"]}}}';
                     res.send(JSON.parse(output), null, 4);
             }
         else if (req.body.target['features'] != 0 && req.body.target['features'].includes('versions')) {
-                var request_id = req.headers.request_id;
+                var request_id = req.headers['X-Request-ID'];
                 var actuatorversions = [];  
                 featurepairs.actuators.forEach(getVersions);
                 function getVersions(item) {
                 actuatorversions.push({"name": item['name'], "version": item['features']['version']});
               } 
-                var output = '{ "status": "200", "request_id": "' + request_id + '", "results" : {"versions": ["1.0"]}}';
+                var output = '{ "status": "200", "X-Request-ID: "' + request_id + '", "results" : {"versions": ["1.0"]}}';
                 res.send(JSON.parse(output), null, 4);  
         }
     
@@ -134,8 +134,8 @@ app.post('/command/', function (req, res) {
             if (req.body.actuator.hasOwnProperty('x-virustotal')) {
                 virustotal(req, function (parsedbody) {
                     if (parsedbody) {
-                        var request_id = req.headers.request_id;
-                        var output = '{ "status": "200", "request_id": "' + request_id + '", "results" : ' + parsedbody + '}';
+                        var request_id = req.headers['X-Request-ID'];
+                        var output = '{ "status": "200", "X-Request-ID": "' + request_id + '", "results" : ' + parsedbody + '}';
                         res.send(JSON.parse(output), null, 4);
                     }
                     else {
@@ -148,8 +148,8 @@ app.post('/command/', function (req, res) {
             else if (req.body.actuator.hasOwnProperty('x-bluvector')) {
                 bluvector(req, function (parsedbody) {
                     if (parsedbody) {
-                        var request_id = req.headers.request_id;
-                        var output = '{ "status": "200", "request_id": "' + request_id + '", "results" : ' + parsedbody + '}';
+                        var request_id = req.headers['X-Request-ID'];
+                        var output = '{ "status": "200", "X-Request-ID": "' + request_id + '", "results" : ' + parsedbody + '}';
                         res.send(JSON.parse(output), null, 4);
                     }
                     else {
@@ -161,8 +161,8 @@ app.post('/command/', function (req, res) {
             else if (req.body.actuator.hasOwnProperty('x-fireeye')) {
                 fireeye(req, function (parsedbody) {
                     if (parsedbody) {
-                        var request_id = req.headers.request_id;
-                        var output = '{ "status": "200", "request_id": "' + request_id + '", "results" : ' + parsedbody + '}';
+                        var request_id = req.headers['X-Request-ID'];
+                        var output = '{ "status": "200", "X-Request-ID": "' + request_id + '", "results" : ' + parsedbody + '}';
                         res.send(JSON.parse(output), null, 4);
                      }
                     else {
@@ -174,8 +174,8 @@ app.post('/command/', function (req, res) {
             else if (req.body.actuator.hasOwnProperty('x-hashdd')) {
                 hashdd(req, function (parsedbody) {
                     if (parsedbody) {
-                        var request_id = req.headers.request_id;
-                        var output = '{ "status": "200", "request_id": "' + request_id + '", "results" : ' + parsedbody + '}';
+                        var request_id = req.headers['X-Request-ID'];
+                        var output = '{ "status": "200", "X-Request-ID": "' + request_id + '", "results" : ' + parsedbody + '}';
                         res.send(JSON.parse(output), null, 4);
                      }
                     else {
@@ -187,8 +187,8 @@ app.post('/command/', function (req, res) {
             else if (req.body.actuator.hasOwnProperty('x-threatcrowd')) {
                 threatcrowd(req, function (parsedbody) {
                     if (parsedbody) {
-                        var request_id = req.headers.request_id;
-                        var output = '{ "status": "200", "request_id": "' + request_id + '", "results" : ' + parsedbody + '}';
+                        var request_id = req.headers['X-Request-ID'];
+                        var output = '{ "status": "200", "X-Request-ID": "' + request_id + '", "results" : ' + parsedbody + '}';
                         res.send(JSON.parse(output), null, 4);
                      }
                     else {
@@ -200,8 +200,8 @@ app.post('/command/', function (req, res) {
             else if (req.body.actuator.hasOwnProperty('x-opswat')) {
                 opswat(req, function (parsedbody) {
                     if (parsedbody) {
-                        var request_id = req.headers.request_id;
-                        var output = '{ "status": "200", "request_id": "' + request_id + '", "results" : ' + parsedbody + '}';
+                        var request_id = req.headers['X-Request-ID'];
+                        var output = '{ "status": "200", "X-Request-ID": "' + request_id + '", "results" : ' + parsedbody + '}';
                         res.send(JSON.parse(output), null, 4);
                      }
                     else {

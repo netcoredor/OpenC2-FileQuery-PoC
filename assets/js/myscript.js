@@ -208,7 +208,7 @@ $("#executeNowId").on('click', (function () {
 	xhttp.setRequestHeader('Content-Type', 'application/openc2-cmd+json');
 	xhttp.setRequestHeader('apikey', oc2ServerAPIKeyId);
 	xhttp.setRequestHeader('Authorization', 'Basic ' + oc2ServerAPIKeyId);
-	xhttp.setRequestHeader('request_id', getRandomNumber());
+	xhttp.setRequestHeader('X-Request-ID', getRandomNumber());
 	
 	xhttp.onreadystatechange = function () {
 		if (this.readyState !== 4)
@@ -276,7 +276,7 @@ function sampleCodeGenerate(jsonPrettified) {
 --header 'Content-Type: application/openc2-cmd+json;version=1.0' \\<br>\
 --header 'Accept: application/json' \\<BR>\
 --header 'apikey: " + oc2ServerAPIKeyId + "' \\<br>\
---header 'request_id: " + getRandomNumber() + "' \\<br>\
+--header 'X-Request-ID: " + getRandomNumber() + "' \\<br>\
 --data-raw '"
 	var curlclosing = "'\n";
 	$('#curlCodeText').html("".concat(curlCode, jsonPrettified, curlclosing));
@@ -286,7 +286,7 @@ url: '" + oc2Server + "',\n\
 strictSSL: false,\n\
 headers: \
 { 'apikey': '" + oc2ServerAPIKeyId + "',\n \
-'request_id': '" + getRandomNumber() + "',\n \
+'X-Request-ID: '" + getRandomNumber() + "',\n \
 'Content-Type': 'application/openc2-cmd+json;version=1.0' },\n \
 body: \n"
 	var nodeJSclosing = ",\njson: true };\n \
@@ -300,7 +300,7 @@ console.log(JSON.stringify(response.body));\n \
 	headers['Content-Type'] = "application/openc2-cmd+json;version=1.0";
 	headers['apikey'] = oc2ServerAPIKeyId;
 	headers['Cache-Control'] = "no-cache";
-	headers['request_id'] = '1df58b31-0e4b-4cf3-92e5-d4bbac8a828e';
+	headers['X-Request-ID'] = '1df58b31-0e4b-4cf3-92e5-d4bbac8a828e';
 	var headersString = 'headers = ' + JSON.stringify(headers);
 	var pythonEnd = 'response = requests.request("POST", url, data=payload, headers=headers,verify=False)';
 	var jsonPrettified = jsonPrettified.replace(/\n/g, "\\\<br>");

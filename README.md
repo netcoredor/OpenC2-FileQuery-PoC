@@ -22,7 +22,7 @@ Please note that this code turns off SSL validation in order to support self sig
 Updated Virustotal API to version 3.0
 Added Fireeye Detection on Demand
 Query MD5 Hash
-Updated OpenC2 response. Added "request_id" : UUID to response.
+Updated OpenC2 response. Added "X-Request-ID" : UUID to response.
 Updated Node.js command generation to ignore expired certificates. e.g ADDED  "strictSSL: false"
 Updated features OpenC2 request.
 Updated features/versions request.
