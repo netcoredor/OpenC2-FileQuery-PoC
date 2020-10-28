@@ -205,7 +205,7 @@ $("#executeNowId").on('click', (function () {
 	var oc2ServerAPI = {};
 	oc2ServerAPI['apikey'] = $('#oc2ServerKeyId').val();
 	xhttp.open("POST", oc2Server, true);
-	xhttp.setRequestHeader('Content-Type', 'application/json');
+	xhttp.setRequestHeader('Content-Type', 'application/openc2-cmd+json');
 	xhttp.setRequestHeader('apikey', oc2ServerAPIKeyId);
 	xhttp.setRequestHeader('Authorization', 'Basic ' + oc2ServerAPIKeyId);
 	xhttp.setRequestHeader('request_id', getRandomNumber());

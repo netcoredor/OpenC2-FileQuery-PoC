@@ -18,7 +18,7 @@ var https = require('https');
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
-app.use(bodyParser.json({ type: 'application/openc2-json' }));
+app.use(bodyParser.json({ type: 'application/openc2-cmd+json' }));
 var AuthConfig = require(__dirname + '/etc/config.json');
 var virustotal = require(__dirname + '/oc2cmds/virustotal.js');
 var bluvector = require(__dirname + '/oc2cmds/bluvector.js');
