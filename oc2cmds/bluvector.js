@@ -20,7 +20,7 @@ module.exports =  function (req,callback){
     var options = { 
         "method": 'POST', 
         "body": JSON.stringify(requestBody),
-        "url": 'https://167.102.248.22:6443/command',
+        "url": 'https://ipaddresshere:6443/command',
         "headers": {
             "content-type": 'application/openc2-cmd+json',
             "request_id": req.headers['request_id'],

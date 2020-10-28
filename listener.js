@@ -153,6 +153,7 @@ app.post('/command/', function (req, res) {
                         res.send(JSON.parse(output), null, 4);
                     }
                     else {
+						var output = '{ "status": "400", "results" : "failed" }';
                         res.send(JSON.parse(output), null, 4);
                     }
                 })
