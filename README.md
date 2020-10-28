@@ -9,6 +9,8 @@ All the node_modules have been removed from the repository. To add all the node_
 type "npm install"
 This will redownload all the necessary node modules for the software to function.
 
+Type 'node listener.js' to start the listener.
+
 Please note that this code turns off SSL validation in order to support self signed certs used in https. Please use in a controlled environment isolated from rest of network.
 
 
