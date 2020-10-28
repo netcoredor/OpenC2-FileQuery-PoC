@@ -113,7 +113,7 @@ app.post('/openc2/', function (req, res) {
         }
         else if(req.body.target.hasOwnProperty('features') != 0 && req.body.target['features'].includes('pairs')) {
                     var request_id = req.headers['X-Request-ID'];
-                    var output = '{ "status": "200", "request_id": "' + request_id + '", "results" : { "pairs": { "query": ["features","file"]}}}';
+                    var output = '{ "status": "200", "X-Request-ID": "' + request_id + '", "results" : { "pairs": { "query": ["features","file"]}}}';
                     res.send(JSON.parse(output), null, 4);
             }
         else if (req.body.target['features'] != 0 && req.body.target['features'].includes('versions')) {
