@@ -273,7 +273,7 @@ function sampleCodeGenerate(jsonPrettified) {
 	var oc2Server = $('#oc2ServerId').val();
 	var oc2ServerAPIKeyId = $('#oc2ServerKeyId').val();
 	var curlCode = "curl --insecure --request POST '" + oc2Server + "' \\<br> \
---header 'Content-Type: application/json' \\<br>\
+--header 'Content-Type: application/openc2-cmd+json;version=1.0' \\<br>\
 --header 'Accept: application/json' \\<BR>\
 --header 'apikey: " + oc2ServerAPIKeyId + "' \\<br>\
 --header 'request_id: " + getRandomNumber() + "' \\<br>\
@@ -287,7 +287,7 @@ strictSSL: false,\n\
 headers: \
 { 'apikey': '" + oc2ServerAPIKeyId + "',\n \
 'request_id': '" + getRandomNumber() + "',\n \
-'Content-Type': 'application/json' },\n \
+'Content-Type': 'application/openc2-cmd+json;version=1.0' },\n \
 body: \n"
 	var nodeJSclosing = ",\njson: true };\n \
 request(options, function (error, response, body) {\n \
@@ -297,7 +297,7 @@ console.log(JSON.stringify(response.body));\n \
 	$('#nodejsCodeText').text("".concat(nodeJsCode, jsonPrettified, nodeJSclosing));
 	var pythonCode = 'import requests\ \nurl = "' + oc2Server + '" \npayload = \''
 	var headers = {};
-	headers['Content-Type'] = "application/json";
+	headers['Content-Type'] = "application/openc2-cmd+json;version=1.0";
 	headers['apikey'] = oc2ServerAPIKeyId;
 	headers['Cache-Control'] = "no-cache";
 	headers['request_id'] = '1df58b31-0e4b-4cf3-92e5-d4bbac8a828e';
