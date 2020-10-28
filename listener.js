@@ -107,17 +107,17 @@ app.post('/openc2/', function (req, res) {
     if (req.headers["apikey"] == AuthConfig["apikey"]) {
         if (req.body.target.hasOwnProperty('features')) {
         if (req.body.target.hasOwnProperty('features') && (req.body.target['features'] == 0)) {
-                var request_id = req.headers['X-Request-ID'];
+                var request_id = req.headers['x-request-id'];
                 var output = '{ "status": "200"}';
                 res.send(JSON.parse(output), null, 4);
         }
         else if(req.body.target.hasOwnProperty('features') != 0 && req.body.target['features'].includes('pairs')) {
-                    var request_id = req.headers['X-Request-ID'];
+                    var request_id = req.headers['x-request-id'];
                     var output = '{ "status": "200", "X-Request-ID": "' + request_id + '", "results" : { "pairs": { "query": ["features","file"]}}}';
                     res.send(JSON.parse(output), null, 4);
             }
         else if (req.body.target['features'] != 0 && req.body.target['features'].includes('versions')) {
-                var request_id = req.headers['X-Request-ID'];
+                var request_id = req.headers['x-request-id'];
                 var actuatorversions = [];  
                 featurepairs.actuators.forEach(getVersions);
                 function getVersions(item) {
@@ -134,7 +134,7 @@ app.post('/openc2/', function (req, res) {
             if (req.body.actuator.hasOwnProperty('x-virustotal')) {
                 virustotal(req, function (parsedbody) {
                     if (parsedbody) {
-                        var request_id = req.headers['X-Request-ID'];
+                        var request_id = req.headers['x-request-id'];
                         var output = '{ "status": "200", "X-Request-ID": "' + request_id + '", "results" : ' + parsedbody + '}';
                         res.send(JSON.parse(output), null, 4);
                     }
@@ -148,7 +148,7 @@ app.post('/openc2/', function (req, res) {
             else if (req.body.actuator.hasOwnProperty('x-bluvector')) {
                 bluvector(req, function (parsedbody) {
                     if (parsedbody) {
-                        var request_id = req.headers['X-Request-ID'];
+                        var request_id = req.headers['x-request-id'];
                         var output = '{ "status": "200", "X-Request-ID": "' + request_id + '", "results" : ' + parsedbody + '}';
                         res.send(JSON.parse(output), null, 4);
                     }
@@ -161,7 +161,7 @@ app.post('/openc2/', function (req, res) {
             else if (req.body.actuator.hasOwnProperty('x-fireeye')) {
                 fireeye(req, function (parsedbody) {
                     if (parsedbody) {
-                        var request_id = req.headers['X-Request-ID'];
+                        var request_id = req.headers['x-request-id'];
                         var output = '{ "status": "200", "X-Request-ID": "' + request_id + '", "results" : ' + parsedbody + '}';
                         res.send(JSON.parse(output), null, 4);
                      }
@@ -174,7 +174,7 @@ app.post('/openc2/', function (req, res) {
             else if (req.body.actuator.hasOwnProperty('x-hashdd')) {
                 hashdd(req, function (parsedbody) {
                     if (parsedbody) {
-                        var request_id = req.headers['X-Request-ID'];
+                        var request_id = req.headers['x-request-id'];
                         var output = '{ "status": "200", "X-Request-ID": "' + request_id + '", "results" : ' + parsedbody + '}';
                         res.send(JSON.parse(output), null, 4);
                      }
@@ -187,7 +187,7 @@ app.post('/openc2/', function (req, res) {
             else if (req.body.actuator.hasOwnProperty('x-threatcrowd')) {
                 threatcrowd(req, function (parsedbody) {
                     if (parsedbody) {
-                        var request_id = req.headers['X-Request-ID'];
+                        var request_id = req.headers['x-request-id'];
                         var output = '{ "status": "200", "X-Request-ID": "' + request_id + '", "results" : ' + parsedbody + '}';
                         res.send(JSON.parse(output), null, 4);
                      }
@@ -200,7 +200,7 @@ app.post('/openc2/', function (req, res) {
             else if (req.body.actuator.hasOwnProperty('x-opswat')) {
                 opswat(req, function (parsedbody) {
                     if (parsedbody) {
-                        var request_id = req.headers['X-Request-ID'];
+                        var request_id = req.headers['x-request-id'];
                         var output = '{ "status": "200", "X-Request-ID": "' + request_id + '", "results" : ' + parsedbody + '}';
                         res.send(JSON.parse(output), null, 4);
                      }
