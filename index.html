@@ -13,7 +13,7 @@
 </head>
 
 
-<body>
+<body onload="setHrefServerid()">
     <div id="openc2_Action"></div>
     <div id="openc2_Target"></div>
     <div id="openc2_TargetSpecifier"></div>
@@ -247,6 +247,12 @@
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="assets/js/myscript.js"></script>
+    <script>
+    function setHrefServerid() {
+        document.getElementById("oc2ServerId").value = location.href + 'openc2';
+    }
+    </script>
+
 </body>
 
 </html>

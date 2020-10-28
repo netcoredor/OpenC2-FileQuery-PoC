@@ -209,7 +209,6 @@ $("#executeNowId").on('click', (function () {
 	xhttp.setRequestHeader('apikey', oc2ServerAPIKeyId);
 	xhttp.setRequestHeader('Authorization', 'Basic ' + oc2ServerAPIKeyId);
 	xhttp.setRequestHeader('X-Request-ID', getRandomNumber());
-	
 	xhttp.onreadystatechange = function () {
 		if (this.readyState !== 4)
 			return;
@@ -300,7 +299,7 @@ console.log(JSON.stringify(response.body));\n \
 	headers['Content-Type'] = "application/openc2-cmd+json;version=1.0";
 	headers['apikey'] = oc2ServerAPIKeyId;
 	headers['Cache-Control'] = "no-cache";
-	headers['X-Request-ID'] = '1df58b31-0e4b-4cf3-92e5-d4bbac8a828e';
+	headers['X-Request-ID'] = getRandomNumber();
 	var headersString = 'headers = ' + JSON.stringify(headers);
 	var pythonEnd = 'response = requests.request("POST", url, data=payload, headers=headers,verify=False)';
 	var jsonPrettified = jsonPrettified.replace(/\n/g, "\\\<br>");

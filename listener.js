@@ -19,6 +19,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 app.use(bodyParser.json({ type: 'application/openc2-cmd+json' }));
+app.use(bodyParser.json({ type: 'application/openc2-rsp+json' }));
 var AuthConfig = require(__dirname + '/etc/config.json');
 var virustotal = require(__dirname + '/oc2cmds/virustotal.js');
 var bluvector = require(__dirname + '/oc2cmds/bluvector.js');
@@ -102,6 +103,7 @@ app.get('/assets/actuator_capabilities.json', function (req, res) {
 app.post('/openc2/', function (req, res) {
     if (req.headers["apikey"] != AuthConfig["apikey"]) {
         var output = '{ "status": "401"}';
+        res.type('application/openc2-rsp+json');
         res.send(JSON.parse(output), null, 4);
     }
     if (req.headers["apikey"] == AuthConfig["apikey"]) {
@@ -109,11 +111,13 @@ app.post('/openc2/', function (req, res) {
         if (req.body.target.hasOwnProperty('features') && (req.body.target['features'] == 0)) {
                 var request_id = req.headers['x-request-id'];
                 var output = '{ "status": "200"}';
+                res.type('application/openc2-rsp+json');
                 res.send(JSON.parse(output), null, 4);
         }
         else if(req.body.target.hasOwnProperty('features') != 0 && req.body.target['features'].includes('pairs')) {
                     var request_id = req.headers['x-request-id'];
                     var output = '{ "status": "200", "X-Request-ID": "' + request_id + '", "results" : { "pairs": { "query": ["features","file"]}}}';
+                    res.type('application/openc2-rsp+json');
                     res.send(JSON.parse(output), null, 4);
             }
         else if (req.body.target['features'] != 0 && req.body.target['features'].includes('versions')) {
@@ -124,6 +128,7 @@ app.post('/openc2/', function (req, res) {
                 actuatorversions.push({"name": item['name'], "version": item['features']['version']});
               } 
                 var output = '{ "status": "200", "X-Request-ID: "' + request_id + '", "results" : {"versions": ["1.0"]}}';
+                res.type('application/openc2-rsp+json');
                 res.send(JSON.parse(output), null, 4);  
         }
     
@@ -140,6 +145,7 @@ app.post('/openc2/', function (req, res) {
                     }
                     else {
                         var output = '{ "status": "400", "results" : "failed" }';
+                        res.type('application/openc2-rsp+json');
                         res.send(JSON.parse(output), null, 4);
                     }
 
@@ -153,7 +159,8 @@ app.post('/openc2/', function (req, res) {
                         res.send(JSON.parse(output), null, 4);
                     }
                     else {
-						var output = '{ "status": "400", "results" : "failed" }';
+                        var output = '{ "status": "400", "results" : "failed" }';
+                        res.type('application/openc2-rsp+json');
                         res.send(JSON.parse(output), null, 4);
                     }
                 })
@@ -167,6 +174,7 @@ app.post('/openc2/', function (req, res) {
                      }
                     else {
                         var output = '{ "status": "400", "results" : "Error in request." }';
+                        res.type('application/openc2-rsp+json');
                         res.send(JSON.parse(output), null, 4);
                     }
                 })
@@ -176,10 +184,12 @@ app.post('/openc2/', function (req, res) {
                     if (parsedbody) {
                         var request_id = req.headers['x-request-id'];
                         var output = '{ "status": "200", "X-Request-ID": "' + request_id + '", "results" : ' + parsedbody + '}';
+                        res.type('application/openc2-rsp+json');
                         res.send(JSON.parse(output), null, 4);
                      }
                     else {
                         var output = '{ "status": "400", "results" : "Error in request." }';
+                        res.type('application/openc2-rsp+json');
                         res.send(JSON.parse(output), null, 4);
                     }
                 })
@@ -193,6 +203,7 @@ app.post('/openc2/', function (req, res) {
                      }
                     else {
                         var output = '{ "status": "400", "results" : "Error in request." }';
+                        res.type('application/openc2-rsp+json');
                         res.send(JSON.parse(output), null, 4);
                     }
                 })
