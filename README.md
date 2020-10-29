@@ -5,11 +5,13 @@ This collection of code was put together for two companies present at the Januar
 I updated the code to include more vendors as actuators and made slight modifications to the code to bring it closer to the latest OpenC2 language specification.
 
 In order to make it work, the /etc/config.json file must be edited to include your api key. The embedded openc2api key is only useful with this code and so it is hardcoded, but the other two keys must be edited for the backend http.requests to function correctly.
-All the node_modules have been removed from the repository. To add all the node_modules so the software works, navigate to where you cloned the repo and 
-type "npm install"
-This will redownload all the necessary node modules for the software to function.
+All the node_modules have been removed from the repository. 
 
-Type 'node listener.js' to start the listener.
+To add all the node_modules:
+
+1. Change directory to the package root that contains the listener.js file.
+2. Type "npm install" as this will populate the node_modules folder with all the dependencies.
+3. Type 'node listener.js' to start the listener. The listener will start listening on port 1512.
 
 Please note that this code turns off SSL validation in order to support self signed certs used in https. Please use in a controlled environment isolated from rest of network.
 
